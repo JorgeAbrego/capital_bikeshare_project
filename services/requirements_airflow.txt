@@ -1,0 +1,5 @@
+apache-airflow-providers-google==10.15.0
+apache-airflow-providers-docker==3.9.1
+pandas==2.1.4
+psycopg2-binary==2.9.9
+pyarrow==14.0.2
