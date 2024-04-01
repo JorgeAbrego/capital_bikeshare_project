@@ -220,6 +220,7 @@ services:
     image: dbt-bigquery:v1
     container_name: dbt_env
     environment:
+      GOOGLE_CLOUD_PROJECT: ${GCP_PROJECT_ID}
       PROJECT_ID: ${GCP_PROJECT_ID}
       BIGQUERY_DATASET: ${GCP_BIGUERY_DATASET}
     env_file:
@@ -228,6 +229,27 @@ services:
       - ${DBT_PROJ_DIR}:/usr/app
       - ${DBT_CONFIG_PATH}:/root/.dbt/
       - ${GCP_SA_KEY}:/root/.google/credentials/google_credentials.json
+
+  ###########################################################################################################
+  # dbt project
+  ###########################################################################################################
+  docker-proxy:
+    build:
+        context: .
+        dockerfile: dockerSocat.Dockerfile
+    image: docker-socat:v1
+    container_name: docker-proxy
+    environment:
+      PROJECT_ID: ${GCP_PROJECT_ID}
+      BIGQUERY_DATASET: ${GCP_BIGUERY_DATASET}
+    command: "TCP4-LISTEN:2375,fork,reuseaddr UNIX-CONNECT:/var/run/docker.sock"
+    ports:
+      - "2376:2375"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ${DBT_PROJ_DIR}:/dbt/projects
+      - ${DBT_CONFIG_PATH}:/dbt/config
+      #- ${GCP_SA_KEY}:/dbt/keys/google_credentials.json
 
 volumes:
   postgres_data:

@@ -1,0 +1,95 @@
+version: 2
+
+sources:
+  - name: staging
+    database: "{{ env_var('PROJECT_ID') }}"
+    schema: "{{ env_var('BIGQUERY_DATASET') }}"
+    tables:
+      - name: prt_bikeshare
+
+models:
+  - name: fact_bikerides
+    description: "A table of fact rides containing details of each ride."
+    columns:
+      - name: ride_id
+        description: "The unique identifier for each ride."
+        tests:
+          - unique
+          - not_null
+
+      - name: rideable_type
+        description: "The type of rideable (e.g., bike, scooter)."
+
+      - name: started_at
+        description: "Timestamp when the ride started."
+        tests:
+          - not_null
+
+      - name: ended_at
+        description: "Timestamp when the ride ended."
+
+      - name: start_station_name
+        description: "The name of the starting station."
+
+      - name: start_station_id
+        description: "The unique identifier for the starting station."
+
+      - name: end_station_name
+        description: "The name of the ending station."
+
+      - name: end_station_id
+        description: "The unique identifier for the ending station."
+
+      - name: start_lat
+        description: "The latitude of the start location."
+        
+      - name: start_lng
+        description: "The longitude of the start location."
+
+      - name: end_lat
+        description: "The latitude of the end location."
+        
+      - name: end_lng
+        description: "The longitude of the end location."
+
+      - name: member_casual
+        description: "Indicates whether the rider is a member or a casual rider."
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['member', 'casual']
+
+      - name: started_at_date
+        description: "The date when the ride started."
+        tests:
+          - not_null
+
+      - name: day_of_week
+        description: "Numeric representation of the day of the week the ride started."
+
+      - name: day_name
+        description: "Name of the day of the week the ride started."
+        tests:
+          - not_null
+
+      - name: start_hour
+        description: "The hour of the day when the ride started."
+        tests:
+          - not_null
+
+      - name: duration_minutes
+        description: "The duration of the ride in minutes."
+        tests:
+          - not_null
+
+      - name: time_of_day
+        description: "Categorization of the start time into morning, afternoon, evening, or night."
+        tests:
+          - accepted_values:
+              values: ['Morning', 'Afternoon', 'Evening', 'Night']
+
+      - name: ride_length_category
+        description: "Categorization of the ride length into short, medium, or long."
+        tests:
+          - accepted_values:
+              values: ['Short', 'Medium', 'Long']
