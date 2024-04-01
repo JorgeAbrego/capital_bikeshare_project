@@ -1,0 +1,14 @@
+credentials = <GCP service account json file>
+project = <GCP Project ID>
+region = "us-east1"
+location = "US"
+datalake_bucket_name = <Bucket name>
+vpc_network_name = "capitalbike-vpc"
+firewall_name = "capitalbike-fw"
+#source_ranges   = ["0.0.0.0/0"]
+instance_name   = "airflow-vm"
+machine_type    = "e2-standard-8"
+zone            = "us-east1-b"
+image           = "ubuntu-os-cloud/ubuntu-2004-lts"
+ssh_user        = "airflow-user"
+public_ssh_key_path = "~/.ssh/id_rsa.pub"
