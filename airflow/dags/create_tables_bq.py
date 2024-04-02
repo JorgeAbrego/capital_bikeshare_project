@@ -22,8 +22,9 @@ PATH_TO_FILES = 'capital-bikeshare-data/*.csv'
 
 with DAG('create_base_tables',
          default_args=default_args,
-         description='Crate a external table in BigQuery from a folder into a Bucket and then a partitioned table based.',
-         schedule_interval=timedelta(days=1),
+         description='Create a external table in BigQuery from a folder into a Bucket and then a partitioned table based.',
+         #schedule_interval='@monthly',
+         schedule_interval=None,
          catchup=False) as dag:
 
     create_external_table = BigQueryInsertJobOperator(

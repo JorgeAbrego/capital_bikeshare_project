@@ -2,7 +2,7 @@ import os
 import pandas as pd
 import requests
 import zipfile
-from datetime import timedelta
+from datetime import timedelta, datetime
 from airflow import DAG
 from airflow.models import Variable
 from airflow.operators.python_operator import PythonOperator
@@ -15,7 +15,11 @@ def determine_year_month(**kwargs):
     try:
         year_month = Variable.get("year_month")
     except KeyError:
-        year_month = kwargs['ds_nodash'][:6]  # Use the execution date if the variable is not set
+        execution_date = datetime.strptime(kwargs['ds_nodash'], "%Y%m%d")
+        first_day_of_current_month = execution_date.replace(day=1)
+        last_day_of_previous_month = first_day_of_current_month - timedelta(days=1)
+        year_month = last_day_of_previous_month.strftime("%Y%m")
+        #year_month = kwargs['ds_nodash'][:6]  # Use the execution date if the variable is not set
     return year_month
 
 def download_zip_file(year_month, destination_folder='data-downloads', **kwargs):
@@ -87,7 +91,13 @@ default_args = {
     'retry_delay': timedelta(minutes=5),
 }
 
-with DAG('extracting_and_loading', default_args=default_args, schedule_interval='@monthly', catchup=False) as dag:
+with DAG('extracting_and_loading', 
+         default_args=default_args, 
+         description='Download dataset from bucket and load to Cloud Storage',
+         #schedule_interval='@monthly', 
+         schedule_interval=None,
+         catchup=False) as dag:
+    
     determine_year_month_task = PythonOperator(
         task_id='determine_year_month',
         python_callable=determine_year_month,

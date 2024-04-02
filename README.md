@@ -93,7 +93,7 @@ Setting up the data engineering environment locally involves several key steps t
 
     To install Portainer, follow the instructions at: [Portainer Installation Documentation](https://docs.portainer.io/start/install-ce/server/docker).
 
-7. **Access Airflow**: Once the stack is running, open a web browser and navigate to `http://localhost:8080` to access the Airflow web interface. Here you should see the DAGs deployed and ready for execution.
+7. **Access Airflow**: Once the stack is running, open a web browser and navigate to `http://localhost:8080` to access the Airflow web interface. Here you should see the DAGs already running.
 
     ![Airflow Webserver](images/Airflow_Webserver.png)
 

@@ -1,3 +1,4 @@
+import os
 from datetime import datetime, timedelta
 from airflow import DAG
 from airflow.operators.bash_operator import BashOperator
@@ -6,13 +7,17 @@ from docker.types import Mount
 
 default_args = {
 'owner'                 : 'airflow',
-'description'           : 'Use of the DockerOperator',
+'description'           : 'Run dbt project to build fact tables',
 'start_date'            : datetime(2021, 5, 1),
 'retries'               : 1,
 'retry_delay'           : timedelta(minutes=5)
 }
 
-with DAG('dbt_run_project', default_args=default_args, schedule_interval=timedelta(minutes=5), catchup=False) as dag:
+with DAG('dbt_run_project', 
+         default_args=default_args, 
+         #schedule_interval='@monthly',
+         schedule_interval=None,
+         catchup=False) as dag:
 
     t1 = BashOperator(
         task_id='print_current_date',
@@ -29,9 +34,15 @@ with DAG('dbt_run_project', default_args=default_args, schedule_interval=timedel
         command="run --project-dir /usr/app/dbt/capital_bikeshare",
         docker_url="tcp://docker-proxy:2375",
         network_mode="bridge",
+        environment={
+            'GOOGLE_CLOUD_PROJECT':os.getenv("PROJECT_ID"),
+            'PROJECT_ID':os.getenv("PROJECT_ID"),
+            'BIGQUERY_DATASET':os.getenv("DATASET_NAME")
+        },
         mounts = [
-            Mount(source="/dbt/projects", target="/usr/app", type="bind"),
-            Mount(source="/dbt/config",target="/root/.dbt",type="bind")
+            Mount(source=os.getenv("DBT_PROJ_DIR"), target="/usr/app", type="bind"),
+            Mount(source=os.getenv("DBT_CONFIG_PATH"),target="/root/.dbt",type="bind"),
+            Mount(source=os.getenv("GCP_SA_KEY"),target="/root/.google/credentials/google_credentials.json",type="bind")
             ],
         mount_tmp_dir = False
         )
