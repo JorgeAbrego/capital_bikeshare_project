@@ -10,5 +10,6 @@ instance_name   = "airflow-vm"
 machine_type    = "e2-standard-8"
 zone            = "us-east1-b"
 image           = "ubuntu-os-cloud/ubuntu-2004-lts"
-ssh_user        = "airflow-user"
+ssh_user        = <your email without @gmail.com>
 public_ssh_key_path = "~/.ssh/id_rsa.pub"
+private_ssh_key_path = "~/.ssh/id_rsa"

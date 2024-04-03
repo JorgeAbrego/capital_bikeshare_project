@@ -32,3 +32,13 @@ variable "public_ssh_key_path" {
   description = "La ruta al archivo de la llave pública SSH"
   type        = string
 }
+
+variable "private_ssh_key_path" {
+  description = "La ruta al archivo de la llave pública SSH"
+  type        = string
+}
+
+variable "target_bucket" {
+  description = "La ruta al archivo de la llave pública SSH"
+  type        = string
+}

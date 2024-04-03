@@ -145,7 +145,7 @@ Deploying the project in a cloud environment requires a series of steps that inv
     # Make sure to replace path/to/your/private-key and user@host with your actual key path and instance details
     ```
 
-5. **Docker Stack Deployment**: Once connected to the instance, follow the same steps detailed in the [Local Environment](#local-environment) setup to deploy the Docker stack.
+5. **Docker Stack Deployment**: Once connected to the instance, follow the same steps detailed in the [Local Environment](#local-environment) setup to deploy the Docker stack, you will see that repository is already cloned and account service json file copied to `/home/<user>/.gcp` folder.
 
 ## Dashboard Visualization
 

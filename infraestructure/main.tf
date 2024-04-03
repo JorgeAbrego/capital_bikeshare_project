@@ -28,4 +28,6 @@ module "compute" {
   network       = module.vpc.vpc_id
   ssh_user      = var.ssh_user
   public_ssh_key_path = var.public_ssh_key_path
+  private_ssh_key_path = var.private_ssh_key_path
+  target_bucket = var.datalake_bucket_name
 }
