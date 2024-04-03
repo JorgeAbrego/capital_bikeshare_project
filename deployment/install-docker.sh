@@ -13,4 +13,4 @@ sudo systemctl start docker
 sudo systemctl enable docker
 
 # Clone repository
-git clone https://github.com/JorgeAbrego/mlops_zoomcamp_project de-project
+git clone https://github.com/JorgeAbrego/capital_bikeshare_project cb-project
